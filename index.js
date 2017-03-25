@@ -10,7 +10,7 @@ app.use(express.static(__dirname + "/new"));
 app.get("/", function(req, res) {
 	res.sendFile("index.html");
 });
-app.get("/*", function(req, res) {
+app.get("/new/*", function(req, res) {
 	var link = url.parse(req.path.replace("\/new\/", ""));
 	if(link.protocol && link.host) {
 		var labelStrings = link.host.split(/\.+/g).filter(n => true);
@@ -32,6 +32,7 @@ app.get("/*", function(req, res) {
 function makeUrl(orig, res) {
 	var link;
 	mongo.connect(dblink, function(err, db) {
+		if(err) throw err;
 		var urlList = db.collection("url_list");
 		urlList.find({original_url: orig},{_id: 0, original_url:1, short_url: 1}).toArray(function(err, docs) {
 			link = docs[0];
@@ -43,7 +44,7 @@ function makeUrl(orig, res) {
 			} else {
 				link = {
 					original_url: orig,
-					short_url: __dirname + (new Date().getTime()/1000).toFixed(0)
+					short_url: "https://url-shortener-klm.herokuapp.com/" + (new Date().getTime()/1000).toFixed(0)
 				};
 				urlList.insert(link, function(err, data) {
 					if(err) throw err;
@@ -57,4 +58,23 @@ function makeUrl(orig, res) {
 		});
 	});
 }
+app.get("/*", function(req, res) {
+	mongo.connect(dblink, function(err, db) {
+		if(err) throw err;
+		var urlList = db.collection("url_list");
+		var short = req.path.replace("/", "");
+		urlList.find({short_url: short}).toArray(function(err, docs) {
+			var link = docs[0];
+			if(link != null) {
+				console.log("-- Found --");
+				console.log(link);
+				res.send(window.location.href = url.parse(link.original_url));
+				db.close();
+			} else {
+				res.send({err: "short_url not found."});
+				db.close();
+			}
+		});
+	});
+});
 app.listen(process.env.PORT || 3000);
