@@ -72,8 +72,8 @@ app.get("/*", function(req, res) {
 			if(link != null) {
 				console.log("-- Found --");
 				console.log(link);
-				//window.location.href = url.parse(link.original_url);
-				res.send(url.parse(link.original_url));
+				window.location.href = link.original_url;
+				//res.send(link.original_url);
 				db.close();
 			} else {
 				res.send({err: "short_url not found."});
