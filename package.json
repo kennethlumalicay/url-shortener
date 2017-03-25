@@ -1,11 +1,24 @@
 {
   "name": "url-shortener",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.15.2"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kennethlumalicay/url-shortener.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kennethlumalicay/url-shortener/issues"
+  },
+  "homepage": "https://github.com/kennethlumalicay/url-shortener#readme",
+  "description": ""
 }
