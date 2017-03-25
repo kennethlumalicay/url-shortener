@@ -63,15 +63,17 @@ app.get("/*", function(req, res) {
 		if(err) throw err;
 		var urlList = db.collection("url_list");
 		var short = req.path.replace("/", "https://url-shortener-klm.herokuapp.com/");
-		console.log(short);
+		console.log("short " + short);
 		urlList.find({short_url: short}).toArray(function(err, docs) {
 			if(err) throw err;
 			var link = docs[0];
+			console.log("--- link ---");
 			console.log(link);
 			if(link != null) {
 				console.log("-- Found --");
 				console.log(link);
-				window.location.href = url.parse(link.original_url);
+				//window.location.href = url.parse(link.original_url);
+				res.send(url.parse(link.original_url));
 				db.close();
 			} else {
 				res.send({err: "short_url not found."});
