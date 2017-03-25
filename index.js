@@ -62,9 +62,11 @@ app.get("/*", function(req, res) {
 	mongo.connect(dblink, function(err, db) {
 		if(err) throw err;
 		var urlList = db.collection("url_list");
-		var short = req.path.replace("/", "");
+		var short = req.path.replace("/", "https://url-shortener-klm.herokuapp.com/");
 		urlList.find({short_url: short}).toArray(function(err, docs) {
+			if(err) throw err;
 			var link = docs[0];
+			console.log(link);
 			if(link != null) {
 				console.log("-- Found --");
 				console.log(link);
