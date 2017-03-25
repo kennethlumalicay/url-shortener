@@ -43,7 +43,7 @@ function makeUrl(orig, res) {
 			} else {
 				link = {
 					original_url: orig,
-					short_url: __dirname + (new Date().getTime()/1000).toFixed(0)
+					short_url: "https://url-shortener-klm.herokuapp.com/" + (new Date().getTime()/1000).toFixed(0)
 				};
 				urlList.insert(link, function(err, data) {
 					if(err) throw err;
