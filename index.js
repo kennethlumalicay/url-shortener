@@ -9,7 +9,7 @@ app.use(express.static(__dirname + "/view"));
 app.use(express.static(__dirname + "/new"));
 app.get("/", function(req, res) {
 	res.sendFile("index.html");
-});
+});/*
 app.get("/*", function(req, res) {
 	var link = url.parse(req.path.replace("\/new\/", ""));
 	if(link.protocol && link.host) {
@@ -56,5 +56,5 @@ function makeUrl(orig, res) {
 			}
 		});
 	});
-}
+}*/
 app.listen(process.env.PORT || 3000);
